@@ -13,6 +13,7 @@ public class Taller {
 
     private Box[] boxes;
     private ColaInicial colaInicial;
+    private TipoVehiculo tipovehiculo;
 
     public static final int NUM_BOXES = 6;
     
@@ -22,6 +23,7 @@ public class Taller {
             this.boxes[i] = new Box(i + 1);
         }
         this.colaInicial= new ColaInicial();
+        this.tipovehiculo= TipoVehiculo.NADA;
     }
     
     private void comenzar() {
@@ -66,10 +68,10 @@ public class Taller {
                     this.mostrar();
                     break;
                     
-                case 6:amedias
+                //case 6:amedias
                         
                         
-                case 7:amedias
+                //case 7:amedias
                     
 
                 default:
@@ -78,7 +80,14 @@ public class Taller {
     }
 
     private Vehiculo recogerNuevoVehiculo() {
-        return new Vehiculo(getMatricula(), getModelo(), getTipoVehiculo());
+        String matricula = getMatricula();
+        String Modelo = getModelo();
+        tipovehiculo = getTipoVehiculo();
+        if(tipovehiculo == TipoVehiculo.CAMION || tipovehiculo == TipoVehiculo.FURGONETA){
+            return new Vehiculo(matricula, Modelo, tipovehiculo, getCilindro(), getPma());
+        }
+        else return new Vehiculo(matricula, Modelo, tipovehiculo, getCilindro(), getPlazas(), getPotencia());
+        
     }
     
     private String getMatricula() {
@@ -115,7 +124,64 @@ public class Taller {
                 gestorIO.out("Error!!! Debe ser un tipo válido");
             }
         } while(error);
+        tipovehiculo = TipoVehiculo.tipoSegunIndice(opcion);
         return TipoVehiculo.tipoSegunIndice(opcion);
+    }
+    
+    private int getCilindro() {
+        GestorIO gestorIO = new GestorIO();
+        int cilindro;
+        
+        gestorIO.out("¿Cilindros? ");
+        cilindro = gestorIO.inInt();
+        while(tipovehiculo == TipoVehiculo.COCHE && cilindro < 2 || cilindro > 6) {
+            gestorIO.out("ERROR!! Los coches deben tener de 2 a 6 cilindros.");
+            cilindro = gestorIO.inInt();
+        }
+        while(tipovehiculo == TipoVehiculo.MICROBUS && cilindro < 2 || cilindro > 6) {
+            gestorIO.out("ERROR!! Los microbuses deben tener de 2 a 6 cilindros.");
+            cilindro = gestorIO.inInt();
+        }
+        while(tipovehiculo == TipoVehiculo.FURGONETA && cilindro < 4 || cilindro > 10) {
+            gestorIO.out("ERROR!! Las furgonetas deben tener de 4 a 10 cilindros.");
+            cilindro = gestorIO.inInt();
+        }
+        while(tipovehiculo == TipoVehiculo.CAMION && cilindro < 8 || cilindro > 16) {
+            gestorIO.out("ERROR!! Los camiones deben tener de 8 a 16 cilindros.");
+            cilindro = gestorIO.inInt();
+        }
+        return cilindro;
+    }
+    
+    private int getPlazas() {
+        int plazas;
+        GestorIO gestorIO = new GestorIO();
+        do {
+        gestorIO.out("¿Cuántas plazas?: (Entre 2 y 7) ");
+        
+        plazas = gestorIO.inInt();
+        } while(plazas<2 || plazas>7);
+        return plazas;
+    }
+    
+    private int getPotencia() {
+        double potencia;
+        GestorIO gestorIO = new GestorIO();
+        do {
+            gestorIO.out("¿Cuantos CC? ");
+            potencia = gestorIO.inFloat();
+        } while(potencia < 0);
+        return (int)potencia;
+    }
+    
+    private double getPma() {
+        double pma;
+        GestorIO gestorIO = new GestorIO();
+        do {
+            gestorIO.out("¿Cuánto PMA? (Peso Máximo Autorizado) ");
+            pma = gestorIO.inFloat();
+        } while(pma < 0);
+        return pma;
     }
     
     private Box getBox() {

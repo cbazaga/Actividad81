@@ -14,7 +14,22 @@ public class TransportePersonas extends Vehiculo{
     
     public double calcularPrecio(){
         double base = super.calcularPrecio();
-        return base 
+        double total=0;
+        if(this.tipoVehiculo == TipoVehiculo.COCHE) {
+            if(this.plazas > 3){
+                total += plazas*1.5;
+            }
+        }
+        else if(this.tipoVehiculo == TipoVehiculo.MICROBUS){
+            if(this.plazas > 3){
+                total += plazas*2;
+            }
+        }
+        
+        if(this.potencia>1200){
+                total += plazas+10;
+            }
+        return total+base;
     }
     
     
