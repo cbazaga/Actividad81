@@ -14,8 +14,10 @@ public class Taller {
     private Box[] boxes;
     private ColaInicial colaInicial;
     private TipoVehiculo tipovehiculo;
+    private ColaRevisados colarevisados;
+    private ColaPagados colapagados;
 
-    public static final int NUM_BOXES = 6;
+    public static final int NUM_BOXES = 8;
     
     public Taller() {
         this.boxes = new Box[Taller.NUM_BOXES];
@@ -24,6 +26,8 @@ public class Taller {
         }
         this.colaInicial= new ColaInicial();
         this.tipovehiculo= TipoVehiculo.NADA;
+        this.colarevisados = new ColaRevisados();
+        this.colapagados = new ColaPagados();
     }
     
     private void comenzar() {
@@ -57,7 +61,10 @@ public class Taller {
                     }
                     break;
                 case 3:
-                    this.getBox().pasaVehiculosDeFase();
+                    Box box = this.getBox();
+                    box.pasaVehiculosDeFase();
+                    this.colarevisados.introducirVehiculo(box.getUltimoVehiculo());
+                    
                     gestorIO.out("Vehículos desplazados de fase correctamente");
                     break;
                 case 4:
@@ -68,10 +75,29 @@ public class Taller {
                     this.mostrar();
                     break;
                     
-                //case 6:amedias
+                case 6:
+                    double total=0;
+                    
+                    if(this.colarevisados.saberUltimoVehiculo() == TipoVehiculo.COCHE || this.colarevisados.saberUltimoVehiculo() == TipoVehiculo.MICROBUS){
+                        TransportePersonas vehiculo = this.colarevisados.sacarVehiculo().convertirTransporte();
+                        this.colarevisados.actualizarArray();
+                        total = vehiculo.calcularPrecio();
+                        System.out.println("El precio total de tu vehículo es "+ total+" €.");
+                        this.colapagados.introducirVehiculo(vehiculo);
+                    }
+                    else if(this.colarevisados.saberUltimoVehiculo() == TipoVehiculo.CAMION || this.colarevisados.saberUltimoVehiculo() == TipoVehiculo.FURGONETA){
+                        TransporteCarga vehiculo = this.colarevisados.sacarVehiculo().convertirCarga();
+                        this.colarevisados.actualizarArray();
+                        total = vehiculo.calcularPrecio();
+                        System.out.println("El precio total de tu vehículo es "+ total+" €.");
+                        this.colapagados.introducirVehiculo(vehiculo);
+                    }    
                         
-                        
-                //case 7:amedias
+                case 7:
+                    System.out.printf("El total de dinero ganado es de %.1f €", this.colapagados.calcularTotal());
+                    
+                case 8:
+                    System.exit(0);
                     
 
                 default:
@@ -117,7 +143,7 @@ public class Taller {
         int opcion;
         
         do {
-            gestorIO.out("¿Tipo de vehículo? [1:Coche, 2:Microbús, 3: Furgoneta, 4:Camión]:");
+            gestorIO.out("¿Tipo de vehículo? [1:Coche, 2:Furgoneta, 3:Microbús, 4:Camión]:");
             opcion = gestorIO.inInt();
             error = !new Intervalo(1,4).incluye(opcion);
             if (error){

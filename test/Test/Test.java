@@ -3,14 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package itv;
+package Test;
+
+import itv.*;
 
 /**
  *
  * @author ciclost
  */
-public class Camión extends TransporteCarga{
-    //Este archivo forma parte del ejercicio 8.1
-
-    
+public class Test {
 }

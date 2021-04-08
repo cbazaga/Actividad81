@@ -5,12 +5,32 @@
  */
 package itv;
 
+import static itv.Vehiculo.PATRON_MATRICULA;
+import java.util.regex.Pattern;
+
 /**
  *
  * @author ciclost
  */
 public class TransportePersonas extends Vehiculo{
     //Este archivo forma parte del ejercicio 8.1
+    public static final String PATRON_MATRICULA = "\\d{4}[A-Z]{3}";
+    
+    public TransportePersonas(){
+        
+    }
+    
+    //COCHES Y MICROBUSES
+    public TransportePersonas(String matricula, String modelo, TipoVehiculo tipoVehiculo, int cilindros, int plazas, int potencia){
+        assert Pattern.matches(PATRON_MATRICULA, matricula);
+
+        this.matricula = matricula;
+        this.modelo = modelo;
+        this.tipoVehiculo = tipoVehiculo;
+        this.cilindros = cilindros;
+        this.plazas = plazas;
+        this.potencia = potencia;
+    }
     
     public double calcularPrecio(){
         double base = super.calcularPrecio();

@@ -21,7 +21,7 @@ private static final String[] TITULOS = new String[]{
         "\n8. Salir"
     };
     
-    private static final Intervalo OPCIONES = new Intervalo(1,6);
+    private static final Intervalo OPCIONES = new Intervalo(1,8);
     
     public void mostrar(){
         GestorIO gestorIO = new GestorIO();

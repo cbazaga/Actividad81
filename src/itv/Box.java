@@ -11,6 +11,7 @@ class Box {
 
     private int id;
     private FaseRevision[] fasesRevision;
+    private Vehiculo ultimoVehiculo;
 
     private static final String[] TITULOS_FASES = new String[]{
         "1(Seguridad)",
@@ -43,11 +44,13 @@ class Box {
     public void pasaVehiculosDeFase() {
 
         for (int i = fasesRevision.length - 1; i > 0; i--) {
+            if(i == fasesRevision.length-1){
+                ultimoVehiculo = this.fasesRevision[i].getVehiculo();
+            }
             if (!esPrimeraFase(i)) {
                 this.fasesRevision[i - 1].asignaVehiculoA(this.fasesRevision[i]);
             }
         }
-
         this.fasesRevision[0].desasignaVehiculo();
     }
 
@@ -57,5 +60,9 @@ class Box {
         for (FaseRevision faseRevision : fasesRevision) {
             faseRevision.mostrar();
         }
+    }
+
+    public Vehiculo getUltimoVehiculo() {
+        return ultimoVehiculo;
     }
 }

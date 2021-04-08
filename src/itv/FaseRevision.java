@@ -44,4 +44,9 @@ class FaseRevision {
        faseRevision.vehiculo = this.vehiculo;
        this.desasignaVehiculo();
     }
+
+    public Vehiculo getVehiculo() {
+        return vehiculo;
+    }
+    
 }

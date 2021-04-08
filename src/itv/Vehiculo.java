@@ -18,11 +18,11 @@ class Vehiculo {
     protected double pma;
     
     public static final String PATRON_MATRICULA = "\\d{4}[A-Z]{3}";
-
+    
     public Vehiculo(){
         
     }
-    
+    //CAMIONES Y FURGONETAS
     public Vehiculo(String matricula, String modelo, TipoVehiculo tipoVehiculo, int cilindros, double pma) {
         assert Pattern.matches(PATRON_MATRICULA, matricula);
 
@@ -33,6 +33,7 @@ class Vehiculo {
         this.pma = pma;
     }
     
+    //COCHES Y MICROBUSES
     public Vehiculo(String matricula, String modelo, TipoVehiculo tipoVehiculo, int cilindros, int plazas, int potencia){
         assert Pattern.matches(PATRON_MATRICULA, matricula);
 
@@ -61,6 +62,42 @@ class Vehiculo {
     public double calcularPrecio(){
         return 15*cilindros;
     }
+
+    public TipoVehiculo getTipoVehiculo() {
+        return tipoVehiculo;
+    }
+
+    public String getModelo() {
+        return modelo;
+    }
+
+    public int getCilindros() {
+        return cilindros;
+    }
+
+    public int getPlazas() {
+        return plazas;
+    }
+
+    public int getPotencia() {
+        return potencia;
+    }
+
+    public double getPma() {
+        return pma;
+    }
+
+    public TransportePersonas convertirTransporte(){
+        return new TransportePersonas(this.matricula, this.modelo , this.tipoVehiculo, this.cilindros, this.plazas, this.potencia);
+    }
+    
+    public TransporteCarga convertirCarga(){
+        return new TransporteCarga(this.matricula, this.modelo, this.tipoVehiculo, this.cilindros, this.pma);
+    }
+    
+    
+    
+    
     
     
 }
